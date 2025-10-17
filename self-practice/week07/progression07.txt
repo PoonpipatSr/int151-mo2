@@ -1,0 +1,84 @@
+const animals = document.getElementById("animals");
+const allAnimals = animals.children;                   => ขั้นแรกจะทำการเก็บค่าที่ดึงมาจาก id ของ animals รวมไปถึงการกระจายลูกออกมาให้เป็นแต่ละ li
+
+// 🧠 Practice 1 — “List All Animals”
+// เข้าถึง <ul id="animals">
+// แสดงชื่อสัตว์ทั้งหมดใน <li> ทีละตัวใน console
+Array.from(allAnimals).forEach((animal) => console.log(animal.textContent));
+                                => ใช้ Array.from เพื่อสร้าง array โดยให้มีข้อมูลเป็น li แต่ละตัว ต่อมาก็จะทำการ forEach เพื่อ console.log ตัวของ textContent ออกมา
+
+// 🧠 Practice 2 — “Find and Show Cat’s Neighbors”
+// หา <li> ที่มีข้อความ "Cat"
+// แสดง:
+// - previous element sibling
+// - next element sibling
+// - parent element
+const catAnimal = Array.from(allAnimals).find(
+  (li) => li.textContent.trim() === "Cat"  => สร้าง array ขึ้นมาแล้วก็ใช้ find ในการหา textContent ของ li ที่มีค่าตรงกับ "Cat"
+);
+console.log(catAnimal);
+console.log(catAnimal.previousElementSibling);
+console.log(catAnimal.nextElementSibling);
+console.log(catAnimal.parentElement);
+
+// 🧠 Practice 3 — “Count How Many Animals”
+// เข้าถึง <ul>
+// แสดงจำนวน <li> ทั้งหมดใน console
+Array.from(allAnimals).forEach((animal) => console.log(animal)); => สร้าง array แล้วก็ใช้ forEach เพื่อ log animal ทั้งหมดออกมา
+
+// 🧠 Practice 4 — “Highlight the First and Last Animal”
+// เข้าถึง <li> ตัวแรกและตัวสุดท้าย
+// เพิ่ม style เช่น color: "red" ให้ตัวแรก
+// เพิ่ม style เช่น color: "blue" ให้ตัวสุดท้าย
+const lastAnimal = Array.from(allAnimals).length - 1   => เก็บค่าตัวสุดท้ายว่าอยู่ลำดับที่เท่าไหร่ โดยใช้ length - 1
+
+allAnimals[0].style.color = "red"  
+allAnimals[lastAnimal].style.color = "blue"     => เพิ่ม style color โดยใช้ index 0 (ตัวแรก) และ index last ที่ได้มาจากด้านบน (ตัวท้าย)
+
+// 🧠 Practice 5 — “Add a New Animal”
+// สร้าง <li> ใหม่ชื่อ "Rabbit"
+// เพิ่มไปต่อท้ายหลัง <ul>
+const liRabbitElement = document.createElement("li")   => สร้าง element li ใหม่
+liRabbitElement.textContent = "Rabbit"                => เพิ่ม textContent ให้กับ liElement ที่เพิ่งสร้าง
+animals.after(liRabbitElement)                       => ใส่ไว้หลัง ul ของ animals โดยใช้ after
+
+// 🧠 Practice 6 — “Insert Animal in the Middle”
+// สร้าง <li> ใหม่ชื่อ "Elephant"
+// แทรกให้อยู่ก่อน <li>Bird</li>
+const liElephantElement = document.createElement("li")   => สร้าง element li ใหม่
+liElephantElement.textContent = "Elephant"              => เพิ่ม textContent ให้กับ liElement ที่เพิ่งสร้าง
+
+const birdElement = Array.from(allAnimals).find(
+    (animal) => animal.textContent === "Bird"           => ทำการหา element ที่มี textContent เป็น Bird
+)                                                          จากนั้นเพิ่ม element เข้าไปก่อนหน้า Bird โดยใช้ insertBefore element
+animals.insertBefore(liElephantElement, birdElement)
+
+// 🧠 Practice 7 — “Remove an Animal”
+// ลบ <li> ตัวที่มีข้อความ "Dog" ออกจาก <ul>
+const dogElment = Array.from(allAnimals).find(
+    (animal) => animal.textContent === "Dog"    => สร้าง array ขึ้นมาแล้วก็หา element ที่มี textContent เท่ากับ "Dog"
+)                                                   เมื่อหา element นั้นเจอก็นำไป remove element นั้นทิ้ง
+animals.removeChild(dogElment)
+
+// 🧠 Practice 8 — “Change Text Content”
+// เข้าถึง <li> ที่มีข้อความ "Fish"
+// เปลี่ยนข้อความให้เป็น "Shark"
+const fishElement = Array.from(allAnimals).find(
+    (animal) => animal.textContent === "Fish"    => สร้าง array ขึ้นมาแล้วก็หา element ที่มี textContent เท่ากับ "Fish"
+)                                                   เสร็จแล้วก็เขียนทับ textContent เป็น "Shark" เลย
+fishElement.textContent = "Shark"
+
+// 🧠 Practice 9 — “Reverse the Animal Order”
+// ดึง <li> ทั้งหมดออกมาเป็น array
+// กลับลำดับ (reverse) แล้วแสดงกลับใน <ul>
+Array.from(allAnimals).reverse().forEach(animal => animals.appendChild(animal))  => สร้าง array ขึ้นมาแล้วก็ใช้ reverse เพื่อกลับค่า array จากนั้นก็ใช้ forEach เพื่อทำการใส่ค่ากลับเข้าไป
+
+// 🧠 Practice 10 — “Find by Text Dynamically”
+// ให้ผู้ใช้กรอกชื่อสัตว์ใน prompt()
+// หาว่าสัตว์ชื่อนั้นอยู่ใน <ul> หรือไม่
+// ถ้ามีให้ console.log("Found!") ถ้าไม่มีให้ console.log("Not found!")
+const input = prompt("Enter animal name: ")            => ตั้ง prompt ขึ้นมา ให้ผู้ใช้กรอกค่าเข้ามา จากนั้นก็เอาค่าที่ผู้ใช้กรอกเข้าไปไปเช็คโดยใช้ some เพื่อหาสัตว์ที่ผู้ใช้กรอกมาว่ามีสัตว์ชนิดอยู่ไหม 
+const findAnimal = Array.from(allAnimals).some(           ถ้ามีก็ให้ log ว่า Found ถ้าไม่มีก็ให้ log ว่า Not Found ออกมา
+    (animal) => animal.textContent === input           
+)
+findAnimal ? console.log("Found!") : console.log("Not Found!")
